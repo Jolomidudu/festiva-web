@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Festiva — Celebrate beautifully",
+  title: "Festyvibe — Celebrate beautifully",
   description: "Wedding and event management made beautiful.",
 };
 

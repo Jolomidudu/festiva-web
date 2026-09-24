@@ -16,7 +16,7 @@ export default function EventPage() {
           </div>
           <h2 className="serif mt-7 text-3xl text-[#193c32]">Our story</h2>
           <p className="mt-3 max-w-3xl leading-7 text-[#777c78]">
-            We are excited to celebrate this special day with our favorite people. Festiva will keep every detail of the celebration in one beautiful place.
+            We are excited to celebrate this special day with our favorite people. Festyvibe will keep every detail of the celebration in one beautiful place.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[

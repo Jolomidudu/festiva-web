@@ -1,6 +1,6 @@
-# Festiva
+# Festyvibe
 
-Festiva is a modern wedding and event management platform for couples and their guests.
+Festyvive is a modern wedding and event management platform for couples and their guests.
 
 ## Stack
 

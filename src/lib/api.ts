@@ -1,4 +1,5 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api";
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api";
 
 export async function api<T>(
   path: string,
@@ -13,7 +14,11 @@ export async function api<T>(
   });
 
   if (!response.ok) {
-    throw new Error(`API request failed: ${response.status}`);
+    const error = await response.json().catch(() => null);
+
+    throw new Error(
+      error?.message ?? `API request failed: ${response.status}`
+    );
   }
 
   return response.json() as Promise<T>;

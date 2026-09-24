@@ -6,11 +6,11 @@ export default function RegisterPage() {
     <main className="min-h-screen bg-[#f9f7f2] px-6 py-10">
       <div className="mx-auto max-w-md">
         <Link href="/" className="mb-12 inline-flex items-center gap-2 text-sm text-[#777c78]">
-          <ArrowLeft size={16} /> Back to Festiva
+          <ArrowLeft size={16} /> Back to Festyvibe
         </Link>
         <div className="rounded-[2rem] border border-[#ebe8e1] bg-white p-7 shadow-sm md:p-9">
           <div className="text-center">
-            <p className="serif text-4xl text-[#193c32]">Festiva</p>
+            <p className="serif text-4xl text-[#193c32]">Festyvibe</p>
             <h1 className="mt-8 text-2xl font-semibold text-[#202522]">Create your account</h1>
             <p className="mt-2 text-sm text-[#777c78]">Start planning your special day.</p>
           </div>

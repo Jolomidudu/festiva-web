@@ -12,7 +12,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen overflow-hidden">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 lg:px-8">
-        <Link href="/" className="serif text-3xl text-[#193c32]">Festiva</Link>
+        <Link href="/" className="serif text-3xl text-[#193c32]">Festyvibe</Link>
         <div className="hidden items-center gap-8 text-sm text-[#5d625e] md:flex">
           <a href="#features">Features</a>
           <a href="#how-it-works">How it works</a>
@@ -32,11 +32,11 @@ export default function HomePage() {
             Plan the celebration. <span className="text-[#c99a6b]">Enjoy the moment.</span>
           </h1>
           <p className="mt-7 max-w-xl text-lg leading-8 text-[#6c716d]">
-            Festiva brings your wedding website, invitations, guests, RSVPs, gifts and event details into one elegant experience.
+            Festyvibe brings your wedding website, invitations, guests, RSVPs, gifts and event details into one elegant experience.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Link href="/register" className="inline-flex items-center gap-2 rounded-full bg-[#193c32] px-6 py-4 font-medium text-white">
-              Create your Festiva <ArrowRight size={18} />
+              Create your Festyvibe <ArrowRight size={18} />
             </Link>
             <Link href="/dashboard" className="rounded-full border border-[#dcd8cf] bg-white px-6 py-4 font-medium text-[#193c32]">
               View dashboard

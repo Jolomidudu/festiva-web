@@ -24,7 +24,7 @@ export function Sidebar({ mobile = false }: { mobile?: boolean }) {
   return (
     <aside className={`${mobile ? "block" : "hidden lg:flex"} w-full lg:w-64 shrink-0 flex-col border-r border-[#ebe8e1] bg-white`}>
       <div className="flex h-20 items-center justify-between border-b border-[#ebe8e1] px-6">
-        <Link href="/" className="serif text-3xl text-[#193c32]">Festiva</Link>
+        <Link href="/" className="serif text-3xl text-[#193c32]">Festyvibe</Link>
         {mobile && <X size={20} />}
       </div>
       <div className="flex-1 p-4">
