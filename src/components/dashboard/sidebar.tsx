@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   CalendarDays,
   ChevronRight,
@@ -21,31 +24,67 @@ const navigation = [
 ];
 
 export function Sidebar({ mobile = false }: { mobile?: boolean }) {
+  const router = useRouter();
+
+  function handleSignOut() {
+    localStorage.removeItem("festyvibe_token");
+    router.push("/login");
+  }
+
   return (
-    <aside className={`${mobile ? "block" : "hidden lg:flex"} w-full lg:w-64 shrink-0 flex-col border-r border-[#ebe8e1] bg-white`}>
+    <aside
+      className={`${
+        mobile ? "block" : "hidden lg:flex"
+      } w-full lg:w-64 shrink-0 flex-col border-r border-[#ebe8e1] bg-white`}
+    >
       <div className="flex h-20 items-center justify-between border-b border-[#ebe8e1] px-6">
-        <Link href="/" className="serif text-3xl text-[#193c32]">Festyvibe</Link>
+        <Link href="/" className="serif text-3xl text-[#193c32]">
+          Festyvibe
+        </Link>
+
         {mobile && <X size={20} />}
       </div>
+
       <div className="flex-1 p-4">
-        <p className="px-3 pb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9a9d9a]">Workspace</p>
+        <p className="px-3 pb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9a9d9a]">
+          Workspace
+        </p>
+
         <nav className="space-y-1">
           {navigation.map(({ label, href, icon: Icon }) => (
-            <Link key={href} href={href} className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[#646965] hover:bg-[#f4f2ec] hover:text-[#193c32]">
+            <Link
+              key={href}
+              href={href}
+              className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[#646965] hover:bg-[#f4f2ec] hover:text-[#193c32]"
+            >
               <Icon size={18} />
               <span>{label}</span>
               <ChevronRight size={15} className="ml-auto opacity-40" />
             </Link>
           ))}
         </nav>
-        <p className="px-3 pb-3 pt-8 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9a9d9a]">Account</p>
-        <Link href="/settings" className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[#646965] hover:bg-[#f4f2ec]">
-          <Settings size={18} /> Settings
+
+        <p className="px-3 pb-3 pt-8 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9a9d9a]">
+          Account
+        </p>
+
+        <Link
+          href="/settings"
+          className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[#646965] hover:bg-[#f4f2ec]"
+        >
+          <Settings size={18} />
+          Settings
         </Link>
       </div>
+
       <div className="border-t border-[#ebe8e1] p-4">
-        <button className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm text-[#9b5555]">
-          <LogOut size={18} /> Sign out
+        <button
+          type="button"
+          onClick={handleSignOut}
+          className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm text-[#9b5555] hover:bg-[#fdf2f2]"
+        >
+          <LogOut size={18} />
+          Sign out
         </button>
       </div>
     </aside>
