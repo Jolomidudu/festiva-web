@@ -7,6 +7,8 @@ import {
   Users,
 } from "lucide-react";
 
+import RsvpActions from "./RsvpActions";
+
 type GuestStatus =
   | "PENDING"
   | "ATTENDING"
@@ -363,27 +365,29 @@ export default async function PublicInvitationPage({
               </div>
             </div>
 
-            {/* RSVP */}
-            <div className="mx-auto mt-12 max-w-3xl rounded-[2rem] border border-[#e8e3da] bg-[#fbfaf7] p-7 text-center sm:p-10">
-              <CheckCircle2
-                size={24}
-                className="mx-auto text-[#c99a6b]"
-              />
+           {/* RSVP */}
+<div className="mx-auto mt-12 max-w-3xl rounded-[2rem] border border-[#e8e3da] bg-[#fbfaf7] p-7 sm:p-10">
+  <div className="text-center">
+    <CheckCircle2
+      size={24}
+      className="mx-auto text-[#c99a6b]"
+    />
 
-              <h3 className="serif mt-4 text-3xl text-[#193c32]">
-                Your RSVP
-              </h3>
+    <h3 className="serif mt-4 text-3xl text-[#193c32]">
+      Will you be joining us?
+    </h3>
 
-              <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-[#777c78]">
-                Your current RSVP status is shown below. RSVP
-                responses can be managed from your event
-                invitation.
-              </p>
+    <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-[#777c78]">
+      Let us know whether you’ll be celebrating with us.
+      You can update your response at any time.
+    </p>
+  </div>
 
-              <div className="mt-6 inline-flex rounded-full bg-[#193c32] px-6 py-3 text-sm font-medium text-white">
-                {formatGuestStatus(guest.status)}
-              </div>
-            </div>
+  <RsvpActions
+    token={token}
+    initialStatus={guest.status}
+  />
+</div>
           </div>
 
           {/* Footer */}
