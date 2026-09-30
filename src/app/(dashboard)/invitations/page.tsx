@@ -4,6 +4,7 @@ import {
   Check,
   ChevronDown,
   Copy,
+  ExternalLink,
   Loader2,
   Plus,
   RefreshCw,
@@ -308,21 +309,23 @@ export default function InvitationsPage() {
     }
   }
 
-  async function copyInvitationToken(invitation: Invitation) {
-    try {
-      await navigator.clipboard.writeText(invitation.token);
+  async function copyInvitationLink(invitation: Invitation) {
+  try {
+    const link = `${window.location.origin}/invite/${invitation.token}`;
 
-      setCopiedId(invitation.id);
+    await navigator.clipboard.writeText(link);
 
-      window.setTimeout(() => {
-        setCopiedId((current) =>
-          current === invitation.id ? null : current
-        );
-      }, 2000);
-    } catch {
-      setActionError("Unable to copy the invitation token.");
-    }
+    setCopiedId(invitation.id);
+
+    window.setTimeout(() => {
+      setCopiedId((current) =>
+        current === invitation.id ? null : current
+      );
+    }, 2000);
+  } catch {
+    setActionError("Unable to copy the invitation link.");
   }
+}
 
   function openCreateModal() {
     setActionError("");
@@ -603,23 +606,33 @@ export default function InvitationsPage() {
                     </button>
                   )}
 
-                  <button
-                    type="button"
-                    onClick={() =>
-                      copyInvitationToken(invitation)
-                    }
-                    className="inline-flex items-center gap-2 rounded-full border border-[#dedbd4] px-4 py-2.5 text-sm text-[#193c32] transition hover:bg-[#f7f5f0]"
-                  >
-                    {copiedId === invitation.id ? (
-                      <Check size={15} />
-                    ) : (
-                      <Copy size={15} />
-                    )}
+                 <a
+  href={`/invite/${invitation.token}`}
+  target="_blank"
+  rel="noreferrer"
+  className="inline-flex items-center gap-2 rounded-full bg-[#193c32] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[#245246]"
+>
+  <ExternalLink size={15} />
+  View invitation
+</a>
 
-                    {copiedId === invitation.id
-                      ? "Copied"
-                      : "Copy token"}
-                  </button>
+<button
+  type="button"
+  onClick={() =>
+    copyInvitationLink(invitation)
+  }
+  className="inline-flex items-center gap-2 rounded-full border border-[#dedbd4] px-4 py-2.5 text-sm text-[#193c32] transition hover:bg-[#f7f5f0]"
+>
+  {copiedId === invitation.id ? (
+    <Check size={15} />
+  ) : (
+    <Copy size={15} />
+  )}
+
+  {copiedId === invitation.id
+    ? "Copied"
+    : "Copy link"}
+</button>
 
                   <button
                     type="button"
