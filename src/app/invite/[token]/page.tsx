@@ -27,6 +27,15 @@ type Guest = {
   dietaryRequirements?: string | null;
 };
 
+type ScheduleItem = {
+  id: string;
+  title: string;
+  description?: string | null;
+  startTime: string;
+  endTime?: string | null;
+  location?: string | null;
+};
+
 type Event = {
   id: string;
   name: string;
@@ -34,6 +43,7 @@ type Event = {
   location: string;
   description?: string | null;
   coverImage?: string | null;
+  scheduleItems: ScheduleItem[];
 };
 
 type Invitation = {
@@ -333,6 +343,132 @@ export default async function PublicInvitationPage({
                 </p>
               </div>
             </div>
+
+            {/* Event schedule */}
+{event.scheduleItems?.length > 0 && (
+  <section className="mx-auto mt-20 max-w-3xl">
+    <div className="text-center">
+      <p className="text-sm font-medium uppercase tracking-[0.2em] text-[#c99a6b]">
+        The day
+      </p>
+
+      <h2 className="serif mt-3 text-4xl text-[#193c32] sm:text-5xl">
+        Order of events
+      </h2>
+
+      <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[#777c78]">
+        Here&apos;s what the celebration will look like.
+      </p>
+    </div>
+
+    <div className="relative mt-12">
+      {/* Timeline line */}
+      <div className="absolute bottom-6 left-[19px] top-6 w-px bg-[#ded9d0] sm:left-1/2 sm:-translate-x-1/2" />
+
+      <div className="space-y-10">
+        {event.scheduleItems?.map((item, index) => {
+          const isEven = index % 2 === 0;
+
+          return (
+            <div
+              key={item.id}
+              className="relative grid grid-cols-[40px_1fr] gap-5 sm:grid-cols-2 sm:gap-12"
+            >
+              {/* Desktop left side */}
+              <div
+                className={`hidden sm:block ${
+                  isEven
+                    ? "text-right"
+                    : "order-2 text-left"
+                }`}
+              >
+                {isEven && (
+                  <div className="pr-2">
+                    <p className="text-sm font-medium text-[#c99a6b]">
+                      {formatTime(item.startTime)}
+                    </p>
+
+                    {item.endTime && (
+                      <p className="mt-1 text-xs text-[#9a958c]">
+                        until {formatTime(item.endTime)}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Timeline marker */}
+              <div
+                className={`relative flex items-start ${
+                  isEven
+                    ? "sm:absolute sm:left-1/2 sm:top-0 sm:-translate-x-1/2"
+                    : "sm:absolute sm:left-1/2 sm:top-0 sm:-translate-x-1/2"
+                }`}
+              >
+                <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border-4 border-[#f7f5ef] bg-[#193c32] text-white shadow-sm">
+                  <span className="h-2 w-2 rounded-full bg-[#c99a6b]" />
+                </div>
+              </div>
+
+              {/* Mobile + desktop content */}
+              <div
+                className={`min-w-0 ${
+                  isEven
+                    ? "sm:col-start-2 sm:pl-8"
+                    : "sm:col-start-1 sm:row-start-1 sm:pr-8 sm:text-right"
+                }`}
+              >
+                {/* Mobile time */}
+                <div className="sm:hidden">
+                  <p className="text-sm font-medium text-[#c99a6b]">
+                    {formatTime(item.startTime)}
+                  </p>
+
+                  {item.endTime && (
+                    <p className="mt-1 text-xs text-[#9a958c]">
+                      until {formatTime(item.endTime)}
+                    </p>
+                  )}
+                </div>
+
+                <div className="rounded-3xl border border-[#e7e2d9] bg-white p-5 shadow-sm sm:p-6">
+                  <p className="serif text-2xl text-[#193c32]">
+                    {item.title}
+                  </p>
+
+                  {item.description && (
+                    <p className="mt-2 text-sm leading-6 text-[#777c78]">
+                      {item.description}
+                    </p>
+                  )}
+
+                  {item.location && (
+                    <div className="mt-4 flex items-center gap-2 text-xs text-[#8c887f] sm:justify-start">
+                      <MapPin size={14} />
+
+                      <span>{item.location}</span>
+                    </div>
+                  )}
+
+                  <div className="mt-4 flex items-center gap-2 text-xs font-medium text-[#193c32]">
+                    <Clock3 size={14} />
+
+                    <span>
+                      {formatTime(item.startTime)}
+
+                      {item.endTime &&
+                        ` — ${formatTime(item.endTime)}`}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+)}
 
             {/* Guest section */}
             <div className="mx-auto mt-12 max-w-3xl border-t border-[#ebe7df] pt-10">
