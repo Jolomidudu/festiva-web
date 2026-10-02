@@ -15,6 +15,7 @@ export function Topbar() {
   const [currentDate, setCurrentDate] = useState("");
 
   useEffect(() => {
+  const loadUser = () => {
     const storedUser = localStorage.getItem("festyvibe_user");
 
     if (storedUser) {
@@ -24,16 +25,31 @@ export function Topbar() {
         localStorage.removeItem("festyvibe_user");
       }
     }
+  };
 
-    const formattedDate = new Intl.DateTimeFormat(undefined, {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }).format(new Date());
+  loadUser();
 
-    setCurrentDate(formattedDate);
-  }, []);
+  window.addEventListener(
+    "festyvibe:user-updated",
+    loadUser,
+  );
+
+  const formattedDate = new Intl.DateTimeFormat(undefined, {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date());
+
+  setCurrentDate(formattedDate);
+
+  return () => {
+    window.removeEventListener(
+      "festyvibe:user-updated",
+      loadUser,
+    );
+  };
+}, []);
 
   const initials = useMemo(() => {
     if (!user?.name) {
