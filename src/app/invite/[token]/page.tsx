@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 
 import RsvpActions from "./RsvpActions";
+import Countdown from "./Countdown";
 
 type GuestStatus =
   | "PENDING"
@@ -346,6 +347,23 @@ export default async function PublicInvitationPage({
                   {event.location}
                 </p>
               </div>
+
+
+              <div className="mx-auto mt-10 max-w-3xl">
+  <div className="text-center">
+    <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#c99a6b]">
+      Counting down to the celebration
+    </p>
+
+    <h3 className="serif mt-2 text-3xl text-[#193c32]">
+      The big day is almost here
+    </h3>
+  </div>
+
+  <div className="mt-6">
+    <Countdown targetDate={event.date} />
+  </div>
+</div>
             </div>
 
             {/* Event schedule */}
