@@ -33,6 +33,48 @@ type PasswordResponse = {
   message: string;
 };
 
+
+function PasswordInput({
+    value,
+    onChange,
+    placeholder,
+    visible,
+    onToggle,
+  }: {
+    value: string;
+    onChange: (value: string) => void;
+    placeholder: string;
+    visible: boolean;
+    onToggle: () => void;
+  }) {
+    return (
+      <div className="relative">
+        <input
+          type={visible ? "text" : "password"}
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          placeholder={placeholder}
+          className="w-full rounded-2xl border border-[#dedbd4] bg-white px-4 py-3.5 pr-12 text-sm text-[#202522] outline-none transition placeholder:text-[#aaa9a3] focus:border-[#193c32] focus:ring-2 focus:ring-[#193c32]/10"
+        />
+
+        <button
+          type="button"
+          onClick={onToggle}
+          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-[#777c78] transition hover:bg-[#f4f2ed] hover:text-[#193c32]"
+          aria-label={
+            visible ? "Hide password" : "Show password"
+          }
+        >
+          {visible ? (
+            <EyeOff size={18} />
+          ) : (
+            <Eye size={18} />
+          )}
+        </button>
+      </div>
+    );
+  }
+
 export default function SettingsPage() {
   const router = useRouter();
 
@@ -274,46 +316,7 @@ export default function SettingsPage() {
     router.replace("/login");
   }
 
-  function PasswordInput({
-    value,
-    onChange,
-    placeholder,
-    visible,
-    onToggle,
-  }: {
-    value: string;
-    onChange: (value: string) => void;
-    placeholder: string;
-    visible: boolean;
-    onToggle: () => void;
-  }) {
-    return (
-      <div className="relative">
-        <input
-          type={visible ? "text" : "password"}
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-          placeholder={placeholder}
-          className="w-full rounded-2xl border border-[#dedbd4] bg-white px-4 py-3.5 pr-12 text-sm text-[#202522] outline-none transition placeholder:text-[#aaa9a3] focus:border-[#193c32] focus:ring-2 focus:ring-[#193c32]/10"
-        />
-
-        <button
-          type="button"
-          onClick={onToggle}
-          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-[#777c78] transition hover:bg-[#f4f2ed] hover:text-[#193c32]"
-          aria-label={
-            visible ? "Hide password" : "Show password"
-          }
-        >
-          {visible ? (
-            <EyeOff size={18} />
-          ) : (
-            <Eye size={18} />
-          )}
-        </button>
-      </div>
-    );
-  }
+  
 
   if (!user) {
     return (
