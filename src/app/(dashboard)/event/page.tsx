@@ -51,15 +51,20 @@ const emptyScheduleForm: ScheduleForm = {
   location: "",
 };
 
+const FESTYVIBE_TIME_ZONE = "Africa/Lagos";
+
 function formatScheduleTime(value: string) {
   return new Intl.DateTimeFormat("en-NG", {
+    timeZone: FESTYVIBE_TIME_ZONE,
     hour: "numeric",
     minute: "2-digit",
+    hour12: true,
   }).format(new Date(value));
 }
 
 function formatScheduleDate(value: string) {
   return new Intl.DateTimeFormat("en-NG", {
+    timeZone: FESTYVIBE_TIME_ZONE,
     weekday: "long",
     day: "numeric",
     month: "long",
@@ -67,21 +72,86 @@ function formatScheduleDate(value: string) {
   }).format(new Date(value));
 }
 
+/**
+ * Convert a UTC ISO date from the API into a datetime-local
+ * value representing the same moment in Lagos time.
+ *
+ * Example:
+ * 2026-12-22T11:30:00.000Z
+ * becomes:
+ * 2026-12-22T12:30
+ */
 function toDateTimeLocal(value: string) {
-  const date = new Date(value);
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: FESTYVIBE_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date(value));
 
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const get = (type: string) =>
+    parts.find((part) => part.type === type)?.value ?? "";
 
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
+  return `${get("year")}-${get("month")}-${get(
+    "day"
+  )}T${get("hour")}:${get("minute")}`;
 }
 
+/**
+ * Convert a datetime-local value entered by the user
+ * as Lagos time into UTC for the API/database.
+ *
+ * Example:
+ * 2026-12-22T12:30
+ * becomes:
+ * 2026-12-22T11:30:00.000Z
+ */
 function toISOString(value: string) {
-  return new Date(value).toISOString();
+  if (!value) return "";
+
+  return new Date(`${value}:00+01:00`).toISOString();
 }
+
+/**
+ * Convert an event date selected in the date input
+ * into a UTC timestamp while treating the selected
+ * date as a Lagos date.
+ */
+function dateToISOString(value: string) {
+  if (!value) return "";
+
+  return new Date(
+    `${value}T12:00:00+01:00`
+  ).toISOString();
+}
+
+/**
+ * Get a YYYY-MM-DD date from a UTC API value,
+ * using Lagos as the display timezone.
+ */
+function toLagosDate(value: string) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: FESTYVIBE_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date(value));
+
+  const get = (type: string) =>
+    parts.find((part) => part.type === type)?.value ?? "";
+
+  return `${get("year")}-${get("month")}-${get("day")}`;
+}
+
+
+
+
+
+
+
 
 export default function EventPage() {
   const [event, setEvent] = useState<EventResponse | null>(null);
@@ -133,13 +203,7 @@ export default function EventPage() {
         setDescription(currentEvent.description ?? "");
         setCoverImage(currentEvent.coverImage ?? "");
 
-        const eventDate = new Date(currentEvent.date);
-
-        setDate(
-          `${eventDate.getFullYear()}-${String(
-            eventDate.getMonth() + 1
-          ).padStart(2, "0")}-${String(eventDate.getDate()).padStart(2, "0")}`
-        );
+        setDate(toLagosDate(currentEvent.date));
 
         // Load the real schedule from the backend.
         const schedule = await api<ScheduleItem[]>(
@@ -177,7 +241,7 @@ export default function EventPage() {
           method: "PATCH",
           body: JSON.stringify({
             name,
-            date: new Date(`${date}T12:00:00`).toISOString(),
+            date: dateToISOString(date),
             location,
             description,
             coverImage,
@@ -248,13 +312,14 @@ export default function EventPage() {
       return;
     }
 
-    if (
-      scheduleForm.endTime &&
-      new Date(scheduleForm.endTime) <= new Date(scheduleForm.startTime)
-    ) {
-      setError("End time must be later than the start time.");
-      return;
-    }
+   if (
+  scheduleForm.endTime &&
+  new Date(toISOString(scheduleForm.endTime)).getTime() <=
+    new Date(toISOString(scheduleForm.startTime)).getTime()
+) {
+  setError("End time must be later than the start time.");
+  return;
+}
 
     try {
       setSavingSchedule(true);

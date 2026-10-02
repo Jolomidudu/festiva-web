@@ -89,8 +89,11 @@ async function getInvitation(
   return response.json();
 }
 
+const FESTYVIBE_TIME_ZONE = "Africa/Lagos";
+
 function formatDate(date: string) {
   return new Intl.DateTimeFormat("en-NG", {
+    timeZone: FESTYVIBE_TIME_ZONE,
     weekday: "long",
     day: "numeric",
     month: "long",
@@ -100,6 +103,7 @@ function formatDate(date: string) {
 
 function formatTime(date: string) {
   return new Intl.DateTimeFormat("en-NG", {
+    timeZone: FESTYVIBE_TIME_ZONE,
     hour: "numeric",
     minute: "2-digit",
     hour12: true,
