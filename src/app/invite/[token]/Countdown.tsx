@@ -13,17 +13,19 @@ type TimeLeft = {
   seconds: number;
 };
 
+const EMPTY_TIME: TimeLeft = {
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 0,
+};
+
 function calculateTimeLeft(targetDate: string): TimeLeft {
   const difference =
     new Date(targetDate).getTime() - Date.now();
 
   if (difference <= 0) {
-    return {
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-    };
+    return EMPTY_TIME;
   }
 
   return {
@@ -65,19 +67,30 @@ function TimeBlock({
 export default function Countdown({
   targetDate,
 }: CountdownProps) {
-  const [timeLeft, setTimeLeft] = useState(() =>
-    calculateTimeLeft(targetDate)
-  );
+  const [timeLeft, setTimeLeft] =
+    useState<TimeLeft | null>(null);
+
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    const update = () => {
-      setTimeLeft(calculateTimeLeft(targetDate));
+    const updateCountdown = () => {
+      const next = calculateTimeLeft(targetDate);
+
+      setTimeLeft(next);
+
+      if (
+        new Date(targetDate).getTime() <= Date.now()
+      ) {
+        setStarted(true);
+      } else {
+        setStarted(false);
+      }
     };
 
-    update();
+    updateCountdown();
 
     const interval = window.setInterval(
-      update,
+      updateCountdown,
       1000
     );
 
@@ -86,10 +99,24 @@ export default function Countdown({
     };
   }, [targetDate]);
 
-  const isStarted =
-    new Date(targetDate).getTime() <= Date.now();
+  /*
+   * Important:
+   * The server and first client render both show
+   * the same placeholder. The real countdown only
+   * starts after hydration.
+   */
+  if (timeLeft === null) {
+    return (
+      <div className="grid grid-cols-4 gap-2 sm:gap-3">
+        <TimeBlock value={0} label="Days" />
+        <TimeBlock value={0} label="Hours" />
+        <TimeBlock value={0} label="Minutes" />
+        <TimeBlock value={0} label="Seconds" />
+      </div>
+    );
+  }
 
-  if (isStarted) {
+  if (started) {
     return (
       <div className="rounded-3xl bg-[#f8f6f1] px-6 py-5 text-center">
         <p className="text-sm font-medium text-[#193c32]">
