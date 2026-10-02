@@ -9,6 +9,7 @@ import {
 
 import RsvpActions from "./RsvpActions";
 import Countdown from "./Countdown";
+import ShareInvitation from "./ShareInvitation";
 
 type GuestStatus =
   | "PENDING"
@@ -349,6 +350,21 @@ export default async function PublicInvitationPage({
               </div>
 
 
+              <div className="mx-auto mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+  <a
+    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      event.location
+    )}`}
+    target="_blank"
+    rel="noreferrer"
+    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#dedbd4] bg-white px-5 py-3 text-sm font-medium text-[#193c32] transition hover:bg-[#f7f5f0]"
+  >
+    <MapPin size={16} />
+    Get directions
+  </a>
+</div>
+
+
               <div className="mx-auto mt-10 max-w-3xl">
   <div className="text-center">
     <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#c99a6b]">
@@ -364,7 +380,22 @@ export default async function PublicInvitationPage({
     <Countdown targetDate={event.date} />
   </div>
 </div>
+
+
             </div>
+
+            <div className="mt-10 border-t border-[#eeeae2] pt-8 text-center">
+  <p className="text-xs font-medium uppercase tracking-[0.18em] text-[#9a958c]">
+    Share the invitation
+  </p>
+
+  <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#777c78]">
+    Share this invitation with anyone who may need
+    access to the event details.
+  </p>
+
+  <ShareInvitation />
+</div>
 
             {/* Event schedule */}
 {event.scheduleItems?.length > 0 && (
