@@ -47,31 +47,43 @@ const navigation = [
   },
 ];
 
-export function Sidebar({ mobile = false }: { mobile?: boolean }) {
+type SidebarProps = {
+  mobile?: boolean;
+  onClose?: () => void;
+};
+
+export function Sidebar({
+  mobile = false,
+  onClose,
+}: SidebarProps) {
   const router = useRouter();
 
   function handleLogout() {
-    // Clear the authentication token.
     localStorage.removeItem("festyvibe_token");
-
-    // Clear the cached signed-in user.
     localStorage.removeItem("festyvibe_user");
 
-    // Replace the current route so the user cannot
-    // simply navigate back into the dashboard.
     router.replace("/login");
+  }
+
+  function handleNavigation() {
+    if (mobile) {
+      onClose?.();
+    }
   }
 
   return (
     <aside
-      className={`${
-        mobile ? "block" : "hidden lg:flex"
-      } w-full shrink-0 flex-col border-r border-[#ebe8e1] bg-white lg:w-64`}
+      className={
+        mobile
+          ? "flex h-full w-[min(86vw,320px)] shrink-0 flex-col bg-white shadow-2xl"
+          : "hidden w-64 shrink-0 flex-col border-r border-[#ebe8e1] bg-white lg:flex"
+      }
     >
       {/* Logo */}
       <div className="flex h-20 items-center justify-between border-b border-[#ebe8e1] px-6">
         <Link
           href="/"
+          onClick={handleNavigation}
           className="serif text-3xl text-[#193c32]"
         >
           Festyvibe
@@ -80,8 +92,9 @@ export function Sidebar({ mobile = false }: { mobile?: boolean }) {
         {mobile && (
           <button
             type="button"
+            onClick={onClose}
             aria-label="Close navigation"
-            className="rounded-lg p-1 text-[#777c78] transition hover:bg-[#f4f2ec] hover:text-[#193c32]"
+            className="rounded-xl p-2 text-[#777c78] transition hover:bg-[#f4f2ec] hover:text-[#193c32]"
           >
             <X size={20} />
           </button>
@@ -89,7 +102,7 @@ export function Sidebar({ mobile = false }: { mobile?: boolean }) {
       </div>
 
       {/* Navigation */}
-      <div className="flex-1 p-4">
+      <div className="flex-1 overflow-y-auto p-4">
         <p className="px-3 pb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9a9d9a]">
           Workspace
         </p>
@@ -100,6 +113,7 @@ export function Sidebar({ mobile = false }: { mobile?: boolean }) {
               <Link
                 key={href}
                 href={href}
+                onClick={handleNavigation}
                 className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[#646965] transition hover:bg-[#f4f2ec] hover:text-[#193c32]"
               >
                 <Icon size={18} />
@@ -122,10 +136,17 @@ export function Sidebar({ mobile = false }: { mobile?: boolean }) {
 
         <Link
           href="/settings"
+          onClick={handleNavigation}
           className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[#646965] transition hover:bg-[#f4f2ec] hover:text-[#193c32]"
         >
           <Settings size={18} />
-          Settings
+
+          <span>Settings</span>
+
+          <ChevronRight
+            size={15}
+            className="ml-auto opacity-40"
+          />
         </Link>
       </div>
 
@@ -137,7 +158,8 @@ export function Sidebar({ mobile = false }: { mobile?: boolean }) {
           className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm text-[#9b5555] transition hover:bg-[#fdf2f2]"
         >
           <LogOut size={18} />
-          Sign out
+
+          <span>Sign out</span>
         </button>
       </div>
     </aside>
