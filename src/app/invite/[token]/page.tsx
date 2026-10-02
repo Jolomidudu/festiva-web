@@ -10,6 +10,7 @@ import {
 import RsvpActions from "./RsvpActions";
 import Countdown from "./Countdown";
 import ShareInvitation from "./ShareInvitation";
+import AddToCalendar from "./AddToCalendar";
 
 type GuestStatus =
   | "PENDING"
@@ -396,6 +397,14 @@ export default async function PublicInvitationPage({
 
   <ShareInvitation />
 </div>
+
+
+<AddToCalendar
+  title={event.name}
+  description={event.description}
+  startDate={event.date}
+  location={event.location}
+/>
 
             {/* Event schedule */}
 {event.scheduleItems?.length > 0 && (
