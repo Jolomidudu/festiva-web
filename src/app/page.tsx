@@ -144,7 +144,7 @@ export default function HomePage() {
             <div className="relative overflow-hidden rounded-[2rem] border border-white/80 bg-white p-3 shadow-2xl">
               <div className="relative h-[480px] overflow-hidden rounded-[1.5rem] bg-[#e7eee8] sm:h-[540px]">
                 <img
-                  src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=85"
+                  src="/wedding.jpg"
                   alt="Wedding celebration"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
