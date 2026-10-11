@@ -45,8 +45,22 @@ export default function Navbar() {
         <Link
           href="/"
           onClick={closeMobileMenu}
-          className="relative z-50 shrink-0"
+          className="relative z-50 inline-flex shrink-0 items-center gap-2"
         >
+          <span
+            aria-hidden="true"
+            className="h-8 w-8 bg-[#193c32]"
+            style={{
+              maskImage: "url('/logo.png')",
+              maskPosition: "center",
+              maskRepeat: "no-repeat",
+              maskSize: "contain",
+              WebkitMaskImage: "url('/logo.png')",
+              WebkitMaskPosition: "center",
+              WebkitMaskRepeat: "no-repeat",
+              WebkitMaskSize: "contain",
+            }}
+          />
           <span className="serif text-3xl tracking-tight text-[#193c32]">
             Festyvibe
           </span>
