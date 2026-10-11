@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   CalendarDays,
@@ -6,11 +7,9 @@ import {
   Gift,
   Heart,
   Mail,
-  MapPin,
   Send,
   Users,
   Sparkles,
-  Clock3,
 } from "lucide-react";
 
 import Navbar from "@/components/landing/Navbar";
@@ -84,7 +83,7 @@ export default function HomePage() {
 
         <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 pb-20 pt-14 sm:px-6 md:pt-20 lg:grid-cols-2 lg:px-8 lg:pb-28">
           {/* Hero Copy */}
-          <div>
+          <div className="order-2 lg:order-2">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#dce6df] bg-[#e7eee8] px-4 py-2 text-sm font-medium text-[#193c32]">
               <Sparkles size={15} />
               Your special moments, beautifully managed.
@@ -138,63 +137,17 @@ export default function HomePage() {
           </div>
 
           {/* Hero Product Preview */}
-          <div className="relative mx-auto w-full max-w-xl">
+          <div className="relative mx-auto order-1 w-full max-w-xl lg:order-1">
             <div className="absolute -inset-8 rounded-[3rem] bg-[#dfe9e2] blur-3xl" />
 
-            <div className="relative overflow-hidden rounded-[2rem] border border-white/80 bg-white p-3 shadow-2xl">
-              <div className="relative h-[480px] overflow-hidden rounded-[1.5rem] bg-[#e7eee8] sm:h-[540px]">
-                <img
-                  src="/wedding.jpg"
-                  alt="Wedding celebration"
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
-
-                <div className="absolute left-5 right-5 top-5 flex items-center justify-between rounded-full bg-white/90 px-4 py-3 text-xs font-medium text-[#193c32] backdrop-blur sm:left-6 sm:right-6">
-                  <span>Festyvibe</span>
-                  <span>Wedding invitation</span>
-                </div>
-
-                <div className="absolute bottom-6 left-6 right-6 rounded-2xl bg-white/95 p-5 shadow-lg backdrop-blur sm:bottom-7 sm:left-7 sm:right-7">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#c99a6b]">
-                    You're invited
-                  </p>
-
-                  <p className="serif mt-2 text-3xl text-[#193c32]">
-                    Timi & Lola
-                  </p>
-
-                  <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs text-[#777c78]">
-                    <span className="flex items-center gap-1.5">
-                      <CalendarDays size={14} />
-                      Saturday, November 22
-                    </span>
-
-                    <span className="flex items-center gap-1.5">
-                      <MapPin size={14} />
-                      Lagos, Nigeria
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Floating schedule card */}
-            <div className="absolute -bottom-6 -left-2 hidden w-52 rounded-2xl border border-[#ebe8e1] bg-white p-4 shadow-xl sm:block lg:-left-12">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#c99a6b]">
-                <Clock3 size={14} />
-                Schedule
-              </div>
-
-              <p className="mt-2 text-sm font-semibold text-[#193c32]">
-                Wedding Ceremony
-              </p>
-
-              <p className="mt-1 text-xs text-[#777c78]">
-                10:30 AM · Lagos
-              </p>
-            </div>
+            <Image
+              src="/festy%20phone.png"
+              alt="Festyvibe wedding invitation displayed on a phone"
+              width={991}
+              height={1588}
+              priority
+              className="relative mx-auto h-auto w-full max-w-[420px] object-contain"
+            />
           </div>
         </div>
       </section>
