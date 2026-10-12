@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { EventPreferences } from "@/components/dashboard/EventPreferences";
 import {
   CheckCircle2,
   Eye,
@@ -609,6 +610,10 @@ export default function SettingsPage() {
           </div>
         </form>
       </section>
+
+
+      {/* Event Preferences */}
+<EventPreferences />
 
       {/* Account */}
       <section className="mt-6 overflow-hidden rounded-3xl border border-[#ebe8e1] bg-white">
